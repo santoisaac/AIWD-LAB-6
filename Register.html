@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Event Registration</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <style>
+        body{
+            font-family:Arial;
+        }
+
+        form{
+            width:400px;
+            margin:auto;
+        }
+
+        input{
+            width:100%;
+            padding:8px;
+            margin-bottom:10px;
+        }
+
+        .error{
+            color:red;
+            font-size:14px;
+        }
+
+        #message{
+            font-weight:bold;
+            margin-top:10px;
+        }
+    </style>
+</head>
+<body>
+
+<h2>Event Registration Form</h2>
+
+<form id="regForm">
+
+    <label>Participant Name</label>
+    <input type="text" id="name">
+
+    <label>Email</label>
+    <input type="text" id="email">
+
+    <label>Event Name</label>
+    <input type="text" id="eventName" readonly>
+
+    <label>Mobile Number</label>
+    <input type="text" id="mobile">
+
+    <button type="button" id="submitBtn">Submit</button>
+    <button type="button" id="resetBtn">Reset</button>
+
+</form>
+
+<div id="message"></div>
+
+<script>
+$(document).ready(function(){
+
+    const params = new URLSearchParams(window.location.search);
+    const eventTitle = params.get("event");
+
+    $("#eventName").val(eventTitle);
+
+
+    $("#submitBtn").click(function(){
+
+        let name = $("#name").val().trim();
+        let email = $("#email").val().trim();
+        let eventName = $("#eventName").val().trim();
+        let mobile = $("#mobile").val().trim();
+
+        let valid = true;
+
+        $("#message").text("");
+        $("input").css("border","1px solid #ccc");
+
+        const emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+        const mobilePattern = /^[0-9]{10,}$/;
+
+
+        if(name === ""){
+            valid = false;
+            $("#name").css("border","2px solid red");
+        }
+
+        if(email === "" || !emailPattern.test(email)){
+            valid = false;
+            $("#email").css("border","2px solid red");
+        }
+
+        if(mobile === "" || !mobilePattern.test(mobile)){
+            valid = false;
+            $("#mobile").css("border","2px solid red");
+        }
+
+
+        if(!valid){
+            $("#message")
+                .text("Please enter valid details in all fields.")
+                .css("color","red");
+        }
+        else{
+            $("#message")
+                .text("Registration Successful for " + name)
+                .css("color","green");
+
+            $("#submitBtn")
+                .prop("disabled", true)
+                .text("Registered");
+        }
+
+    });
+
+
+    $("#resetBtn").click(function(){
+
+        $("#regForm")[0].reset();
+
+        $("#eventName").val(eventTitle);
+
+        $("#message").text("");
+
+        $("input").css("border","1px solid #ccc");
+
+        $("#submitBtn")
+            .prop("disabled", false)
+            .text("Submit");
+    });
+
+});
+</script>
+
+</body>
+</html>
