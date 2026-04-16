@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Event Management</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <style>
+        .event{
+            border:1px solid #ccc;
+            padding:15px;
+            margin:15px;
+            border-radius:10px;
+            width:400px;
+        }
+
+        .details{
+            display:none;
+            margin-top:10px;
+            padding:10px;
+            background:#f5f5f5;
+        }
+
+        .highlight-title{
+            color:darkblue;
+            font-weight:bold;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Upcoming Events</h1>
+
+<div class="event">
+    <h3>Tech Conference 2026</h3>
+    <p>Date: 20 May 2026</p>
+
+    <button class="toggleBtn">Show Details</button>
+
+    <div class="details">
+        <p>Venue: Chennai Trade Center</p>
+        <p>Speaker Sessions, Workshops, Networking</p>
+        <button class="registerBtn">Register</button>
+    </div>
+</div>
+
+<div class="event">
+    <h3>AI Hackathon</h3>
+    <p>Date: 25 June 2026</p>
+
+    <button class="toggleBtn">Show Details</button>
+
+    <div class="details">
+        <p>Venue: Bangalore Tech Park</p>
+        <p>24-Hour Coding Challenge</p>
+        <button class="registerBtn">Register</button>
+    </div>
+</div>
+
+<div class="event">
+    <h3>Startup Summit</h3>
+    <p>Date: 10 July 2026</p>
+
+    <button class="toggleBtn">Show Details</button>
+
+    <div class="details">
+        <p>Venue: Hyderabad Convention Hall</p>
+        <p>Meet Investors and Entrepreneurs</p>
+        <button class="registerBtn">Register</button>
+    </div>
+</div>
+
+<script>
+$(document).ready(function(){
+
+    $(".toggleBtn").click(function(){
+
+        let eventDiv = $(this).parent();
+
+        eventDiv.find(".details").slideToggle();
+
+        if($(this).text() === "Show Details"){
+            $(this).text("Hide Details");
+        } else {
+            $(this).text("Show Details");
+        }
+
+        $(".event").css("background-color","white");
+        eventDiv.css("background-color","#dff9fb");
+
+        $(".event h3").removeClass("highlight-title");
+        eventDiv.find("h3").addClass("highlight-title");
+
+        let title = eventDiv.find("h3").text();
+        alert("Selected Event: " + title);
+    });
+
+
+    $(".registerBtn").click(function(){
+
+        let title = $(this).closest(".event").find("h3").text();
+
+        window.location.href = "register.html?event=" + encodeURIComponent(title);
+    });
+
+});
+</script>
+
+</body>
+</html>
