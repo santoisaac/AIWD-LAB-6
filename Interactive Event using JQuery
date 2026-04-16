@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Interactive Event Registration Form</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <style>
+        body{
+            font-family: Arial;
+            padding: 20px;
+        }
+
+        form{
+            width: 400px;
+        }
+
+        input{
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid gray;
+            border-radius: 4px;
+        }
+
+        button{
+            padding: 10px 15px;
+            margin-right: 10px;
+        }
+
+        #message{
+            margin-top: 15px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Event Registration Form</h2>
+
+    <form id="registrationForm">
+
+        <label>Participant Name:</label>
+        <input type="text" id="participantName">
+
+        <label>Email:</label>
+        <input type="text" id="email">
+
+        <label>Event Name:</label>
+        <input type="text" id="eventName" value="AI Hackathon" readonly>
+
+        <label>Mobile Number:</label>
+        <input type="text" id="mobile">
+
+        <button type="button" id="submitBtn">Submit</button>
+        <button type="button" id="resetBtn">Reset</button>
+
+    </form>
+
+    <div id="message"></div>
+
+<script>
+$(document).ready(function(){
+
+    $("#submitBtn").click(function(){
+
+        let name = $("#participantName").val().trim();
+        let email = $("#email").val().trim();
+        let eventName = $("#eventName").val().trim();
+        let mobile = $("#mobile").val().trim();
+
+        let isValid = true;
+
+        $("#message").text("");
+        $("input").css("border", "1px solid gray");
+
+        let emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+        let mobilePattern = /^[0-9]{10,}$/;
+
+        if(name === ""){
+            $("#participantName").css("border", "2px solid red");
+            isValid = false;
+        }
+
+        if(email === "" || !emailPattern.test(email)){
+            $("#email").css("border", "2px solid red");
+            isValid = false;
+        }
+
+        if(mobile === "" || !mobilePattern.test(mobile)){
+            $("#mobile").css("border", "2px solid red");
+            isValid = false;
+        }
+
+        if(!isValid){
+            $("#message")
+                .text("Please fill all fields correctly.")
+                .css("color", "red");
+        }
+        else{
+            $("#message")
+                .text("Registration Successful for " + name)
+                .css("color", "green");
+
+            $("#submitBtn")
+                .prop("disabled", true)
+                .text("Registered");
+        }
+
+    });
+
+    $("#resetBtn").click(function(){
+
+        $("#registrationForm")[0].reset();
+
+        $("#eventName").val("AI Hackathon");
+
+        $("#message").text("");
+
+        $("input").css("border", "1px solid gray");
+
+        $("#submitBtn")
+            .prop("disabled", false)
+            .text("Submit");
+    });
+
+});
+</script>
+
+</body>
+</html>
